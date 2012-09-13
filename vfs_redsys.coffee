@@ -18,17 +18,34 @@ module.exports = (_opt) ->
     fs :
       type: "local",
       root: Path.resolve("./fs")
+  docs = {};
   extend(options, _opt);
   model = sharejs.createModel(options)
   vfs = createFS(options.fs)
   translators = {};
   inv = {};
+  model.on("create", (err, docName, data) ->
+    console.log("-------------------");
+    console.log(err, docName, data);
+    );
+  
+  loadDoc = (path, callback) ->
+    console.log("creating ",path, model);
+    model.create(path, "text", {}, callback);
+    
+  applyTransform = (src, dest, translator, callback) ->
+    # we have the original source already in memory
+    if (docs[dest])
+      callback(null, {"status":"here is the source "});
+      return;
+    if typeof(docs[src])=="undefined"
+      async.waterfall([
+        (callback) -> loadDoc(src, callback),
+        (res, callback) -> console.log("blah ",res);
+      ]);
+    callback(null, {"status":"ehmmm"});
   
   return {
-    applyTransform : (path, translator, callback) ->
-      console.log("applying transform #{translator} on #{path}", translator);
-      callback(null, {"status":"ok"});
-      
     readfile : (path, options, callback) ->
       _self = @;
       vfs.readfile(path, options, (err, result) ->
@@ -42,7 +59,7 @@ module.exports = (_opt) ->
                 # giving up
                 callback(err, result);
                 return;
-              _self.applyTransform(newName, translators["."+inv[ext]], callback);
+              applyTransform(newName, path, translators["."+inv[ext]], callback);
               )
           else
             callback(err, result);

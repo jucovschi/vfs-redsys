@@ -16,6 +16,6 @@ vfs.registerGlobalTranslator("sms", { res: "rec", mime: "application/x-rec" });
 #    )
 #  );
   
-vfs.readfile("/test2.rec", {}, (err, result) ->
+vfs.readfile("/test2.sms", {}, (err, result) ->
     console.log(err, result);
   )
