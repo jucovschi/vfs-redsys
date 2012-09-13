@@ -18,6 +18,8 @@ module.exports = (_opt) ->
     fs :
       type: "local",
       root: Path.resolve("./fs")
+    defaultType: "text"
+
   docs = {};
   extend(options, _opt);
   model = sharejs.createModel(options)
@@ -47,7 +49,7 @@ module.exports = (_opt) ->
   loadDoc = (path, _callback) ->
     docName = getDocName(path);
     async.waterfall([
-      (callback) -> model.create(docName, "text", {}, callback) 
+      (callback) -> model.create(docName, options.defaultType, {}, callback) 
       (callback) -> loadVFSFile(path, callback)
       (data, callback) -> model.getSnapshot(docName, (err, doc) ->
         if err
