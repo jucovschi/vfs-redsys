@@ -28,19 +28,19 @@ module.exports = (_opt) ->
   inv = {};
 
   # loads file contents into a string 
-  loadVFSFile = (path, _callback) ->
-    async.waterfall([
-      (callback) -> vfs.readfile(path, {}, callback),
-      (meta, callback) ->
-        data = '';
-        meta.stream.on("data", (item) ->
-          data += item.toString();
-          )
-        meta.stream.on("end", () ->
-          callback(null, data);
-          )
+  loadVFSFile = (path, callback) ->
+    vfs.readfile(path, {encoding:'utf8'}, (err, meta) ->
+      if err
+        callback(err);
         return;
-    ], _callback);
+      data = '';
+      meta.stream.on("data", (item) ->
+        data += item;
+        )
+      meta.stream.on("end", () ->
+        callback(null, data);
+        )
+    );
 
   getDocName = (path) ->
     return path.replace("/","_");
@@ -51,33 +51,41 @@ module.exports = (_opt) ->
     async.waterfall([
       (callback) -> model.create(docName, options.defaultType, {}, callback) 
       (callback) -> loadVFSFile(path, callback)
-      (data, callback) -> model.getSnapshot(docName, (err, doc) ->
-        if err
-          callback(err)
-        doc.type.api.insert.apply({
-          "snapshot" : doc.snapshot,
-          "submitOp" : (op) ->
-            callback(null, op);
-        }, [0, data]);
-        )
+      (data, callback) ->
+        model.getSnapshot(docName, (err, doc) ->
+          if err
+            callback(err)
+          doc.type.api.insert.apply({
+            "snapshot" : doc.snapshot,
+            "submitOp" : (op) ->
+              callback(null, op);
+            }, [0, data]);
+          )
       (op, callback) -> model.applyOp(docName, { v : 0, op : op } , callback);
-      (ver, callback) -> callback()
+      (ver, callback) ->
+        docs[path] = true;
+        callback();
       ], _callback);
 
   applyTransform = (src, dest, translator, callback) ->
-    # we have the original source already in memory
+    # transformation was already established
+    destName = getDocName(dest); 
     if (docs[dest])
       callback(null, {"status":"here is the source "});
       return;
-    if typeof(docs[src])=="undefined"
-      async.waterfall([
-        (callback) -> loadDoc(src, callback),
-        (callback) -> model.getSnapshot(getDocName(src), callback),
-        (data, callback) -> 
-          console.log(data.type.api.getText.apply(data))
-          callback();
-      ], callback);
-  
+    async.waterfall([
+      # make sure source document is in the model 
+      (callback) -> if docs[src] then callback() else loadDoc(src, callback),
+      # create destination document in the model
+      (callback) -> model.create(destName, translator.type, {}, callback),
+      # 
+      (callback) -> 
+        docs[dest] = true;
+        
+    ], (err, data) ->
+      console.log(err, data);
+      );
+
   return {
     readfile : (path, options, callback) ->
       _self = @;
@@ -86,13 +94,13 @@ module.exports = (_opt) ->
           # might be that the file is virtual
           ext = Path.extname(path);
           if inv[ext]
-            newName = path.substr(0, path.length-ext.length)+"."+inv[ext]
+            newName = path.substr(0, path.length-ext.length)+"."+inv[ext].src
             _self.stat(newName, options, (err1, result1) ->
               if err1
                 # giving up
                 callback(err, result);
                 return;
-              applyTransform(newName, path, translators["."+inv[ext]], callback);
+              applyTransform(newName, path, inv[ext], callback);
               )
           else
             callback(err, result);
@@ -139,7 +147,8 @@ module.exports = (_opt) ->
     symlink : (path, options, callback) ->
       vfs.symlink(path, options, callback);
     registerGlobalTranslator : (ext, options, callback) ->
+      options.src = ext;
       translators["."+ext]?=[];
       translators["."+ext].push(options);
-      inv["."+options.res]?=ext;
+      inv["."+options.res]?=options;
   }
