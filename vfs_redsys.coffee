@@ -24,15 +24,42 @@ module.exports = (_opt) ->
   vfs = createFS(options.fs)
   translators = {};
   inv = {};
-  model.on("create", (err, docName, data) ->
-    console.log("-------------------");
-    console.log(err, docName, data);
-    );
-  
-  loadDoc = (path, callback) ->
-    console.log("creating ",path, model);
-    model.create(path, "text", {}, callback);
-    
+
+  # loads file contents into a string 
+  loadVFSFile = (path, _callback) ->
+    async.waterfall([
+      (callback) -> vfs.readfile(path, {}, callback),
+      (meta, callback) ->
+        data = '';
+        meta.stream.on("data", (item) ->
+          data += item.toString();
+          )
+        meta.stream.on("end", () ->
+          callback(null, data);
+          )
+        return;
+    ], _callback);
+
+  getDocName = (path) ->
+    return path.replace("/","_");
+
+  # loads file from VFS into the model
+  loadDoc = (path, _callback) ->
+    docName = getDocName(path);
+    async.waterfall([
+      (callback) -> model.create(docName, "text", {}, callback) 
+      (callback) -> loadVFSFile(path, callback)
+      (data, callback) ->
+        model.applyOp(docName,
+          v : 0,
+          op : [
+            i : data
+            p : 0
+          ]
+        , callback);
+      (ver, callback) -> callback()
+      ], _callback);
+
   applyTransform = (src, dest, translator, callback) ->
     # we have the original source already in memory
     if (docs[dest])
@@ -41,7 +68,8 @@ module.exports = (_opt) ->
     if typeof(docs[src])=="undefined"
       async.waterfall([
         (callback) -> loadDoc(src, callback),
-        (res, callback) -> console.log("blah ",res);
+        (callback) -> model.getSnapshot(getDocName(src), callback),
+        (data, callback) -> console.log(data);
       ]);
     callback(null, {"status":"ehmmm"});
   

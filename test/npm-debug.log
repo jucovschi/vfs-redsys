@@ -1,0 +1,221 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'buffertools' ]
+2 info using npm@1.1.59
+3 info using node@v0.8.8
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\package.json
+6 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\async\package.json
+7 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\deep-extend\package.json
+8 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\share\package.json
+9 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\vfs-local\package.json
+10 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\package.json
+11 verbose cache add [ 'buffertools', null ]
+12 silly cache add name=undefined spec="buffertools" args=["buffertools",null]
+13 verbose parsed url { pathname: 'buffertools',
+13 verbose parsed url   path: 'buffertools',
+13 verbose parsed url   href: 'buffertools' }
+14 silly lockFile 01c6fc88-buffertools buffertools
+15 verbose lock buffertools C:\Users\cjucovschi\AppData\Roaming\npm-cache\01c6fc88-buffertools.lock
+16 silly lockFile 01c6fc88-buffertools buffertools
+17 verbose addNamed [ 'buffertools', '' ]
+18 verbose addNamed [ null, '' ]
+19 silly lockFile 192bcd32-buffertools buffertools@
+20 verbose lock buffertools@ C:\Users\cjucovschi\AppData\Roaming\npm-cache\192bcd32-buffertools.lock
+21 silly addNameRange { name: 'buffertools', range: '', hasData: false }
+22 verbose url raw buffertools
+23 verbose url resolving [ 'https://registry.npmjs.org/', './buffertools' ]
+24 verbose url resolved https://registry.npmjs.org/buffertools
+25 info retry registry request attempt 1 at 16:24:04
+26 http GET https://registry.npmjs.org/buffertools
+27 http 200 https://registry.npmjs.org/buffertools
+28 silly registry.get cb [ 200,
+28 silly registry.get   { vary: 'Accept',
+28 silly registry.get     server: 'CouchDB/1.2.0 (Erlang OTP/R15B)',
+28 silly registry.get     etag: '"AVT0PGJBUHV15BU6003I2DIAM"',
+28 silly registry.get     date: 'Thu, 13 Sep 2012 14:24:06 GMT',
+28 silly registry.get     'content-type': 'application/json',
+28 silly registry.get     'content-length': '24396' } ]
+29 silly addNameRange number 2 { name: 'buffertools', range: '', hasData: true }
+30 silly addNameRange versions [ 'buffertools',
+30 silly addNameRange   [ '1.0.0',
+30 silly addNameRange     '1.0.1',
+30 silly addNameRange     '1.0.2',
+30 silly addNameRange     '1.0.3',
+30 silly addNameRange     '1.0.4',
+30 silly addNameRange     '1.0.5',
+30 silly addNameRange     '1.0.6',
+30 silly addNameRange     '1.0.7',
+30 silly addNameRange     '1.0.8',
+30 silly addNameRange     '1.0.9',
+30 silly addNameRange     '1.1.0' ] ]
+31 verbose addNamed [ 'buffertools', '1.1.0' ]
+32 verbose addNamed [ '1.1.0', '1.1.0' ]
+33 silly lockFile 2038c422-buffertools-1-1-0 buffertools@1.1.0
+34 verbose lock buffertools@1.1.0 C:\Users\cjucovschi\AppData\Roaming\npm-cache\2038c422-buffertools-1-1-0.lock
+35 silly lockFile 4ebb6542-uffertools-buffertools-1-1-0-tgz https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz
+36 verbose lock https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz C:\Users\cjucovschi\AppData\Roaming\npm-cache\4ebb6542-uffertools-buffertools-1-1-0-tgz.lock
+37 verbose addRemoteTarball [ 'https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz',
+37 verbose addRemoteTarball   'c1bc946a3cce722c9adaaed505e9896aa171be9c' ]
+38 info retry fetch attempt 1 at 16:24:05
+39 verbose fetch to= C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\tmp.tgz
+40 http GET https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz
+41 http 200 https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz
+42 silly shasum updated bytes 8065
+43 info shasum c1bc946a3cce722c9adaaed505e9896aa171be9c
+43 info shasum C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\tmp.tgz
+44 verbose tar unpack C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\tmp.tgz
+45 silly lockFile 834c9b36-45571-0-6612477945163846-package C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package
+46 verbose lock C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package C:\Users\cjucovschi\AppData\Roaming\npm-cache\834c9b36-45571-0-6612477945163846-package.lock
+47 silly gunzTarPerm modes [ '777', '666' ]
+48 silly gunzTarPerm extractEntry package.json
+49 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+50 silly gunzTarPerm extractEntry .npmignore
+51 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+52 silly gunzTarPerm extractEntry README.md
+53 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+54 silly gunzTarPerm extractEntry buffertools.js
+55 silly gunzTarPerm modified mode [ 'buffertools.js', 420, 438 ]
+56 silly gunzTarPerm extractEntry test.js
+57 silly gunzTarPerm modified mode [ 'test.js', 420, 438 ]
+58 silly gunzTarPerm extractEntry wscript
+59 silly gunzTarPerm modified mode [ 'wscript', 420, 438 ]
+60 silly gunzTarPerm extractEntry AUTHORS
+61 silly gunzTarPerm modified mode [ 'AUTHORS', 420, 438 ]
+62 silly gunzTarPerm extractEntry .mailmap
+63 silly gunzTarPerm modified mode [ '.mailmap', 420, 438 ]
+64 silly gunzTarPerm extractEntry buffertools.cc
+65 silly gunzTarPerm modified mode [ 'buffertools.cc', 420, 438 ]
+66 silly gunzTarPerm extractEntry binding.gyp
+67 silly gunzTarPerm modified mode [ 'binding.gyp', 420, 438 ]
+68 silly gunzTarPerm extractEntry BoyerMoore.h
+69 silly gunzTarPerm modified mode [ 'BoyerMoore.h', 420, 438 ]
+70 verbose read json C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package\package.json
+71 silly lockFile 834c9b36-45571-0-6612477945163846-package C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package
+72 verbose from cache C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package\package.json
+73 verbose tar pack [ 'C:\\Users\\cjucovschi\\AppData\\Roaming\\npm-cache\\buffertools\\1.1.0\\package.tgz',
+73 verbose tar pack   'C:\\Users\\CJUCOV~1\\AppData\\Local\\Temp\\npm-7012\\1347546245571-0.6612477945163846\\package' ]
+74 verbose tarball C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+75 verbose folder C:\Users\CJUCOV~1\AppData\Local\Temp\npm-7012\1347546245571-0.6612477945163846\package
+76 silly lockFile d336ba3c-he-buffertools-1-1-0-package-tgz C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+77 verbose lock C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz C:\Users\cjucovschi\AppData\Roaming\npm-cache\d336ba3c-he-buffertools-1-1-0-package-tgz.lock
+78 silly lockFile d336ba3c-he-buffertools-1-1-0-package-tgz C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+79 silly lockFile 23331810--cache-buffertools-1-1-0-package C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package
+80 verbose lock C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package C:\Users\cjucovschi\AppData\Roaming\npm-cache\23331810--cache-buffertools-1-1-0-package.lock
+81 silly lockFile 23331810--cache-buffertools-1-1-0-package C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package
+82 verbose tar unpack C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+83 silly lockFile 23331810--cache-buffertools-1-1-0-package C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package
+84 verbose lock C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package C:\Users\cjucovschi\AppData\Roaming\npm-cache\23331810--cache-buffertools-1-1-0-package.lock
+85 silly gunzTarPerm modes [ '777', '666' ]
+86 silly gunzTarPerm extractEntry package.json
+87 silly gunzTarPerm extractEntry .npmignore
+88 silly gunzTarPerm extractEntry README.md
+89 silly gunzTarPerm extractEntry buffertools.js
+90 silly gunzTarPerm extractEntry test.js
+91 silly gunzTarPerm extractEntry buffertools.cc
+92 silly gunzTarPerm extractEntry AUTHORS
+93 silly gunzTarPerm extractEntry binding.gyp
+94 silly gunzTarPerm extractEntry BoyerMoore.h
+95 silly gunzTarPerm extractEntry .mailmap
+96 silly gunzTarPerm extractEntry wscript
+97 verbose read json C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package\package.json
+98 silly lockFile 23331810--cache-buffertools-1-1-0-package C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package
+99 silly shasum updated bytes 8053
+100 info shasum 388cbc846d17516132345174885b5ef8f1a3d086
+100 info shasum C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+101 verbose from cache C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package\package.json
+102 verbose chmod C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz 666
+103 silly chown skipping for windows C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+104 silly lockFile 4ebb6542-uffertools-buffertools-1-1-0-tgz https://registry.npmjs.org/buffertools/-/buffertools-1.1.0.tgz
+105 silly lockFile 2038c422-buffertools-1-1-0 buffertools@1.1.0
+106 silly lockFile 192bcd32-buffertools buffertools@
+107 silly resolved [ { name: 'buffertools',
+107 silly resolved     main: 'buffertools',
+107 silly resolved     version: '1.1.0',
+107 silly resolved     keywords: [ 'buffer', 'buffers' ],
+107 silly resolved     description: 'Working with node.js buffers made easy.',
+107 silly resolved     homepage: 'https://github.com/bnoordhuis/node-buffertools',
+107 silly resolved     author:
+107 silly resolved      { name: 'Ben Noordhuis',
+107 silly resolved        email: 'info@bnoordhuis.nl',
+107 silly resolved        url: 'http://bnoordhuis.nl/' },
+107 silly resolved     repository:
+107 silly resolved      { type: 'git',
+107 silly resolved        url: 'https://github.com/bnoordhuis/node-buffertools.git' },
+107 silly resolved     engines: { node: '>=0.3.0' },
+107 silly resolved     scripts: { install: 'node-gyp rebuild' },
+107 silly resolved     gypfile: true,
+107 silly resolved     contributors: [ [Object], [Object], [Object] ],
+107 silly resolved     readme: '# node-buffertools\n\nUtilities for manipulating buffers.\n\n## Installing the module\n\nEasy! With [npm](http://npmjs.org/):\n\n\tnpm install buffertools\n\nFrom source:\n\n\tnode-gyp configure\n\tnode-gyp build\n\nNow you can include the module in your project.\n\n\trequire(\'buffertools\');\n\tnew Buffer(42).clear();\n\n## Methods\n\nNote that most methods that take a buffer as an argument, will also accept a string.\n\n### Buffer.clear()\n\nClear the buffer. This is equivalent to `Buffer.fill(0)`.\nReturns the buffer object so you can chain method calls.\n\n### Buffer.compare(buffer|string)\n\nLexicographically compare two buffers. Returns a number less than zero\nif a < b, zero if a == b or greater than zero if a > b.\n\nBuffers are considered equal when they are of the same length and contain\nthe same binary data.\n\nSmaller buffers are considered to be less than larger ones. Some buffers\nfind this hurtful.\n\n### Buffer.concat(a, b, c, ...)\n### buffertools.concat(a, b, c, ...)\n\nConcatenate two or more buffers/strings and return the result. Example:\n\n\t// identical to new Buffer(\'foobarbaz\')\n\ta = new Buffer(\'foo\');\n\tb = new Buffer(\'bar\');\n\tc = a.concat(b, \'baz\');\n\tconsole.log(a, b, c); // "foo bar foobarbaz"\n\n\t// static variant\n\tbuffertools.concat(\'foo\', new Buffer(\'bar\'), \'baz\');\n\n### Buffer.equals(buffer|string)\n\nReturns true if this buffer equals the argument, false otherwise.\n\nBuffers are considered equal when they are of the same length and contain\nthe same binary data.\n\nCaveat emptor: If your buffers contain strings with different character encodings,\nthey will most likely *not* be equal.\n\n### Buffer.fill(integer|string|buffer)\n\nFill the buffer (repeatedly if necessary) with the argument.\nReturns the buffer object so you can chain method calls.\n\n### Buffer.fromHex()\n\nAssumes this buffer contains hexadecimal data (packed, no whitespace)\nand decodes it into binary data. Returns a new buffer with the decoded\ncontent. Throws an exception if non-hexadecimal data is encountered.\n\n### Buffer.indexOf(buffer|string, [start=0])\n\nSearch this buffer for the first occurrence of the argument, starting at\noffset `start`. Returns the zero-based index or -1 if there is no match.\n\n### Buffer.reverse()\n\nReverse the content of the buffer in place. Example:\n\n\tb = new Buffer(\'live\');\n\tb.reverse();\n\tconsole.log(b); // "evil"\n\n### Buffer.toHex()\n\nReturns the contents of this buffer encoded as a hexadecimal string.\n\n## Classes\n\nSingular, actually. To wit:\n\n## WritableBufferStream\n\nThis is a regular node.js [writable stream](http://nodejs.org/docs/v0.3.4/api/streams.html#writable_Stream)\nthat accumulates the data it receives into a buffer.\n\nExample usage:\n\n\t// slurp stdin into a buffer\n\tprocess.stdin.resume();\n\tostream = new WritableBufferStream();\n\tutil.pump(process.stdin, ostream);\n\tconsole.log(ostream.getBuffer());\n\nThe stream never emits \'error\' or \'drain\' events.\n\n### WritableBufferStream.getBuffer()\n\nReturn the data accumulated so far as a buffer.\n\n## TODO\n\n* Logical operations on buffers (AND, OR, XOR).\n* Add lastIndexOf() functions.\n',
+107 silly resolved     _id: 'buffertools@1.1.0',
+107 silly resolved     dist: { shasum: '388cbc846d17516132345174885b5ef8f1a3d086' },
+107 silly resolved     _from: 'buffertools' } ]
+108 info install buffertools@1.1.0 into C:\Users\cjucovschi\Documents\GitHub\vfs-redsys
+109 info installOne buffertools@1.1.0
+110 verbose from cache C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package\package.json
+111 info C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools unbuild
+112 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+113 verbose tar unpack C:\Users\cjucovschi\AppData\Roaming\npm-cache\buffertools\1.1.0\package.tgz
+114 silly lockFile f6688019--redsys-node-modules-buffertools C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools
+115 verbose lock C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools C:\Users\cjucovschi\AppData\Roaming\npm-cache\f6688019--redsys-node-modules-buffertools.lock
+116 silly gunzTarPerm modes [ '777', '666' ]
+117 silly gunzTarPerm extractEntry package.json
+118 silly gunzTarPerm extractEntry .npmignore
+119 silly gunzTarPerm extractEntry README.md
+120 silly gunzTarPerm extractEntry buffertools.js
+121 silly gunzTarPerm extractEntry test.js
+122 silly gunzTarPerm extractEntry buffertools.cc
+123 silly gunzTarPerm extractEntry AUTHORS
+124 silly gunzTarPerm extractEntry binding.gyp
+125 silly gunzTarPerm extractEntry BoyerMoore.h
+126 silly gunzTarPerm extractEntry .mailmap
+127 silly gunzTarPerm extractEntry wscript
+128 verbose read json C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+129 silly lockFile f6688019--redsys-node-modules-buffertools C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools
+130 info preinstall buffertools@1.1.0
+131 verbose from cache C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+132 verbose readDependencies using package.json deps
+133 verbose from cache C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+134 verbose readDependencies using package.json deps
+135 silly resolved []
+136 verbose about to build C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools
+137 info build C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools
+138 verbose from cache C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+139 verbose linkStuff [ false,
+139 verbose linkStuff   false,
+139 verbose linkStuff   false,
+139 verbose linkStuff   'C:\\Users\\cjucovschi\\Documents\\GitHub\\vfs-redsys\\node_modules' ]
+140 info linkStuff buffertools@1.1.0
+141 verbose linkBins buffertools@1.1.0
+142 verbose linkMans buffertools@1.1.0
+143 verbose rebuildBundles buffertools@1.1.0
+144 info install buffertools@1.1.0
+145 verbose unsafe-perm in lifecycle true
+146 silly exec cmd "/c" "node-gyp rebuild"
+147 silly cmd,/c,node-gyp rebuild,C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools spawning
+148 info buffertools@1.1.0 Failed to exec install script
+149 info C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools unbuild
+150 verbose from cache C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules\buffertools\package.json
+151 info preuninstall buffertools@1.1.0
+152 info uninstall buffertools@1.1.0
+153 verbose true,C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules,C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\node_modules unbuild buffertools@1.1.0
+154 info postuninstall buffertools@1.1.0
+155 error buffertools@1.1.0 install: `node-gyp rebuild`
+155 error `cmd "/c" "node-gyp rebuild"` failed with 1
+156 error Failed at the buffertools@1.1.0 install script.
+156 error This is most likely a problem with the buffertools package,
+156 error not with npm itself.
+156 error Tell the author that this fails on your system:
+156 error     node-gyp rebuild
+156 error You can get their info via:
+156 error     npm owner ls buffertools
+156 error There is likely additional logging output above.
+157 error System Windows_NT 6.2.9200
+158 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "buffertools"
+159 error cwd C:\Users\cjucovschi\Documents\GitHub\vfs-redsys\test
+160 error node -v v0.8.8
+161 error npm -v 1.1.59
+162 error code ELIFECYCLE
+163 verbose exit [ 1, true ]
