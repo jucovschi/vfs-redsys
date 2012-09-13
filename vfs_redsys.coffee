@@ -49,14 +49,16 @@ module.exports = (_opt) ->
     async.waterfall([
       (callback) -> model.create(docName, "text", {}, callback) 
       (callback) -> loadVFSFile(path, callback)
-      (data, callback) ->
-        model.applyOp(docName,
-          v : 0,
-          op : [
-            i : data
-            p : 0
-          ]
-        , callback);
+      (data, callback) -> model.getSnapshot(docName, (err, doc) ->
+        if err
+          callback(err)
+        doc.type.api.insert.apply({
+          "snapshot" : doc.snapshot,
+          "submitOp" : (op) ->
+            callback(null, op);
+        }, [0, data]);
+        )
+      (op, callback) -> model.applyOp(docName, { v : 0, op : op } , callback);
       (ver, callback) -> callback()
       ], _callback);
 
@@ -69,9 +71,10 @@ module.exports = (_opt) ->
       async.waterfall([
         (callback) -> loadDoc(src, callback),
         (callback) -> model.getSnapshot(getDocName(src), callback),
-        (data, callback) -> console.log(data);
-      ]);
-    callback(null, {"status":"ehmmm"});
+        (data, callback) -> 
+          console.log(data.type.api.getText.apply(data))
+          callback();
+      ], callback);
   
   return {
     readfile : (path, options, callback) ->
