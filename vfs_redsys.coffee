@@ -25,10 +25,11 @@ module.exports = (_opt) ->
   extend(options, _opt);
   model = sharejs.createModel(options)
   vfs = createFS(options.fs)
+  
   translators = {};
   inv = {};
 
-  # loads file contents into a string 
+  # loads VFS file contents into a string 
   loadVFSFile = (path, callback) ->
     vfs.readfile(path, {encoding:'utf8'}, (err, meta) ->
       if err
@@ -43,16 +44,42 @@ module.exports = (_opt) ->
         )
     );
 
+  # wraps around snapshot object to expose it's functions better
+  wrapSnapshot = (doc, callback) ->
+    _self = @;
+    _doc = doc;
+    composedOp = null;
+    _doc.submitOp = (op) ->
+      if (composedOp == null)
+        composedOp = op;
+      else
+        composedOp = _doc.type.compose(composedOp, op);
+    return callback(null, {
+      v : _doc.v,
+      getOriginal : () -> _doc,
+      getText : () -> _doc.type.api.getText.apply(_doc),
+      getLength : () -> _doc.type.api.getLength.apply(_doc)
+      del : (pos, len) -> _doc.type.api.del.apply(_doc, [pos, len]),
+      insert : (pos, text) -> _doc.type.api.insert.apply(_doc, [pos, text]),
+      getDelta : () -> composedOp
+    });
+
+  # creates a (possibly readonly) handler to a file 
   createDocumentHandler = (docName, readonly = true) ->
     handler = 
       name : docName,
       readonly : readonly,
-      getSnapshot : (callback) -> model.getSnapshot(docName, callback),
+      getSnapshot : (callback) -> 
+        async.waterfall([
+          (callback) -> model.getSnapshot(docName, callback),
+          (doc, callback) -> wrapSnapshot(doc, callback)
+        ], callback);
+
       getText : (_callback) ->
         _self = @;
         async.waterfall([
           (callback) -> _self.getSnapshot(callback),
-          (doc, callback) -> callback(null, doc.type.api.getText.apply(doc))
+          (doc, callback) -> callback(null, doc.getText())
         ], _callback);
         
       startListening : (version, callback) ->
@@ -75,16 +102,10 @@ module.exports = (_opt) ->
         async.waterfall([
           (callback) -> _self.getSnapshot(callback),
           (snapshot, callback) ->
-            composedOp = null;
-            snapshot.submitOp = (op) ->
-              if (composedOp == null)
-                composedOp = op;
-              else
-                composedOp = snapshot.type.compose(composedOp, op);
-            len = snapshot.type.api.getLength.apply(snapshot);
-            snapshot.type.api.del.apply(snapshot, [0, len]);
-            snapshot.type.api.insert.apply(snapshot, [0, text]);
-            model.applyOp(docName, { v : snapshot.v, op : composedOp }, callback)
+            len = snapshot.getLength();
+            snapshot.del(0, len);
+            snapshot.insert(0, text);
+            model.applyOp(docName, { v : snapshot.v, op : snapshot.getDelta() }, callback)
          (ver, callback) ->
            callback();
         ], _callback);
