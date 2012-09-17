@@ -1,20 +1,39 @@
 root = "http://localhost:8080/rest/";
 redsys = require('../vfs_redsys')
+async = require('async');
 vfs = new redsys();
-vfs.registerGlobalTranslator("tex", { res: "sms", mime: "application/x-sms" });
-vfs.registerGlobalTranslator("sms", { res: "rec", mime: "application/x-rec" });
 
-# require('http').createServer(require('stack')(
-#  require('vfs-http-adapter')("/rest/", vfs)
-# ) ).listen(8080);
+genOutput = (text) ->
+  output = "";
+  text.replace(/\\importmodule\[.*\]\{.*\}/g, (match) ->
+    output+=match+"\n";
+    )
+  return output
 
-# console.log("RESTful interface at " + root);
+manageChange = (srcHandler, destHandler, _callback) ->
+  async.waterfall([
+    (callback) -> srcHandler.getText(callback),
+    (text, callback) -> destHandler.setText(genOutput(text), _callback)
+  ]);
 
-#vfs.readdir("/", {}, (err, result) ->
-#    result.stream.on("data", (item) ->
-#      console.log(item);
-#    )
-#  );
+  
+transform = (srcHandler, destHandler, _callback) ->
+  async.waterfall([
+    (callback) -> srcHandler.getSnapshot(callback),
+    (snapshot, callback) ->
+      srcHandler.on("op", (op) ->
+        
+      )
+      srcHandler.startListening(snapshot.v, callback)
+      manageChange(srcHandler, destHandler, _callback);
+  ]);
+
+vfs.registerGlobalTranslator("tex", { res: "sms", mime: "application/x-sms", handleTransformation: transform});
+
+require('http').createServer(require('stack')(
+  require('vfs-http-adapter')("/rest/", vfs)
+) ).listen(8080);
+
   
 vfs.readfile("/test2.sms", {}, (err, result) ->
     console.log(err, result);

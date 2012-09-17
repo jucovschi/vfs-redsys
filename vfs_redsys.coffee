@@ -5,6 +5,7 @@ extend = require("deep-extend")
 Path = require("path")
 async = require("async")
 Stream = require("stream");
+{EventEmitter} = require 'events'
 
 createFS = (options) ->
   return switch options.type
@@ -42,6 +43,54 @@ module.exports = (_opt) ->
         )
     );
 
+  createDocumentHandler = (docName, readonly = true) ->
+    handler = 
+      name : docName,
+      readonly : readonly,
+      getSnapshot : (callback) -> model.getSnapshot(docName, callback),
+      getText : (_callback) ->
+        _self = @;
+        async.waterfall([
+          (callback) -> _self.getSnapshot(callback),
+          (doc, callback) -> callback(null, doc.type.api.getText.apply(doc))
+        ], _callback);
+        
+      startListening : (version, callback) ->
+        if (@listening)
+          callback();
+          return;
+        @listening = true;
+        @listener = (op) ->
+          @emit("op", op);
+        model.listen(docName, version, @listener, callback);
+        
+      stopListening : () ->
+        @listening = false;
+        model.removeListener(@listener);
+    extend(handler, new EventEmitter());
+    return handler unless !readonly
+    extend(handler, 
+      setText : (text, _callback) ->
+        _self = @;
+        async.waterfall([
+          (callback) -> _self.getSnapshot(callback),
+          (snapshot, callback) ->
+            composedOp = null;
+            snapshot.submitOp = (op) ->
+              if (composedOp == null)
+                composedOp = op;
+              else
+                composedOp = snapshot.type.compose(composedOp, op);
+            len = snapshot.type.api.getLength.apply(snapshot);
+            snapshot.type.api.del.apply(snapshot, [0, len]);
+            snapshot.type.api.insert.apply(snapshot, [0, text]);
+            model.applyOp(docName, { v : snapshot.v, op : composedOp }, callback)
+         (ver, callback) ->
+           callback();
+        ], _callback);
+    )
+    return handler;
+  
   getDocName = (path) ->
     return path.replace("/","_");
 
@@ -66,25 +115,42 @@ module.exports = (_opt) ->
         docs[path] = true;
         callback();
       ], _callback);
+      
+  prepareSnapshot = (doc, callback) ->
+    text = doc.type.api.getText.apply(doc);
+    meta = {};
+    meta.size = text.length;
+    meta.mime = "text/plain";
+    meta.stream = new Stream();
+    meta.stream.readable = true;
+    callback(null, meta);
+    meta.stream.emit("data", text);
+    meta.stream.emit("end");
+    meta.stream.emit("close");
 
-  applyTransform = (src, dest, translator, callback) ->
+  applyTransform = (src, dest, translator, _callback) ->
     # transformation was already established
+    srcName = getDocName(src); 
     destName = getDocName(dest); 
     if (docs[dest])
-      callback(null, {"status":"here is the source "});
+      async.waterfall([
+        (callback) -> model.getSnapshot(destName, callback),
+        (doc, callback) -> prepareSnapshot(doc, callback);
+      ], _callback);
       return;
     async.waterfall([
       # make sure source document is in the model 
       (callback) -> if docs[src] then callback() else loadDoc(src, callback),
       # create destination document in the model
-      (callback) -> model.create(destName, translator.type, {}, callback),
-      # 
+      (callback) ->
+        model.create(destName, translator.type, {}, callback)
+      # init the transformation 
       (callback) -> 
         docs[dest] = true;
-        
-    ], (err, data) ->
-      console.log(err, data);
-      );
+        translator.handleTransformation(createDocumentHandler(srcName), createDocumentHandler(destName, false), callback)
+      (callback) -> model.getSnapshot(destName, callback)
+      (doc, callback) -> prepareSnapshot(doc, callback);
+    ], _callback);
 
   return {
     readfile : (path, options, callback) ->
@@ -146,9 +212,13 @@ module.exports = (_opt) ->
       vfs.copy(path, options, callback);
     symlink : (path, options, callback) ->
       vfs.symlink(path, options, callback);
-    registerGlobalTranslator : (ext, options, callback) ->
-      options.src = ext;
+    registerGlobalTranslator : (ext, _options, callback) ->
+      _options.src = ext;
+      opt = 
+        type: "text",
+        mime: 'text/plain',
+      extend(opt, _options);
       translators["."+ext]?=[];
-      translators["."+ext].push(options);
-      inv["."+options.res]?=options;
+      translators["."+ext].push(opt);
+      inv["."+opt.res]?=opt;
   }
